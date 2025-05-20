@@ -1,0 +1,37 @@
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        email = request.form.get('email')
+
+        cur = mysql.connection.cursor()
+
+        if email:
+            # Signup logic
+            cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+            existing = cur.fetchone()
+            if existing:
+                flash("Username already exists.")
+                return redirect(url_for('login'))
+
+            cur.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, password, email))
+            mysql.connection.commit()
+            flash("Signup successful. Please login.")
+            return redirect(url_for('login'))
+        else:
+            # Login logic
+            cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+            user = cur.fetchone()
+            cur.close()
+
+            if user:
+                session['user'] = user[1]  # username
+                session['user_id'] = user[0]  # user id
+                return redirect(url_for('dashboard'))
+            else:
+                flash("Invalid credentials")
+                return redirect(url_for('login'))
+
+    return render_template('login.html')
+

@@ -1,0 +1,65 @@
+<!-- templates/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile | HealthConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .profile-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0077b6;
+            margin-bottom: 1rem;
+        }
+
+        .profile-container input, .profile-container button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .profile-container button {
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .profile-container h2 {
+            margin-bottom: 1rem;
+            color: #0077b6;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img src="{{ url_for('static', filename='uploads/' + (user.profile_pic or 'default.jpg')) }}" alt="Profile Picture" class="profile-pic">
+        <h2>{{ user.full_name or user.username }}</h2>
+
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <input type="text" name="full_name" value="{{ user.full_name }}" placeholder="Full Name">
+            <input type="text" name="phone" value="{{ user.phone }}" placeholder="Phone Number">
+            <input type="email" name="email" value="{{ user.email }}" readonly>
+            <input type="file" name="profile_pic">
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

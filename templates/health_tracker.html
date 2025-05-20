@@ -1,0 +1,108 @@
+<!-- templates/health_tracker.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Tracker | HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #0a0f1a;
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            padding: 30px;
+            text-align: center;
+        }
+        h2 {
+            text-shadow: 0 0 10px #0ff;
+            margin-bottom: 25px;
+        }
+        form {
+            background: rgba(0,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 20px #0ff;
+        }
+        input {
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #0ff;
+            border-radius: 10px;
+            width: 100%;
+            background-color: #0a0f1a;
+            color: #0ff;
+            font-family: 'Orbitron';
+        }
+        button {
+            margin-top: 10px;
+            padding: 12px 25px;
+            font-weight: bold;
+            font-family: 'Orbitron';
+            background-color: #0ff;
+            color: #0a0f1a;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #0ff;
+        }
+        button:hover {
+            background-color: #00faff;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 90%;
+        }
+        th, td {
+            border: 1px solid #0ff;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: rgba(0, 255, 255, 0.2);
+        }
+        tr:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h2>Health Tracker</h2>
+
+    <form method="POST">
+        <input type="text" name="weight" placeholder="Weight (kg)" required>
+        <input type="text" name="bp" placeholder="Blood Pressure (e.g. 120/80)" required>
+        <input type="text" name="sugar" placeholder="Sugar Level (mg/dL)" required>
+        <input type="text" name="hr" placeholder="Heart Rate (bpm)" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Health History</h2>
+    {% if history %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Weight</th>
+            <th>BP</th>
+            <th>Sugar</th>
+            <th>Heart Rate</th>
+        </tr>
+        {% for row in history %}
+        <tr>
+            <td>{{ row[4].strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ row[0] }} kg</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }} mg/dL</td>
+            <td>{{ row[3] }} bpm</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No health records yet.</p>
+    {% endif %}
+</body>
+</html>

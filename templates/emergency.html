@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emergency Services | HealthConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .container {
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .emergency-card {
+            width: calc(30% - 2rem);
+            margin: 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .emergency-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .content {
+            padding: 1rem;
+        }
+        .content h3 {
+            margin-bottom: 0.5rem;
+            color: #d90429;
+        }
+        .content p {
+            margin: 0.3rem 0;
+        }
+        .strong-label {
+            font-weight: bold;
+        }
+        .map-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #0077b6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header class="glass-navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="HealthConnect Logo">
+    </div>
+    <nav class="nav-menu">
+        <a href="/"><img src="{{ url_for('static', filename='icons/home.png') }}"><span>Home</span></a>
+        <a href="/doctors"><img src="{{ url_for('static', filename='icons/doctor.png') }}"><span>Doctors</span></a>
+        <a href="/medical_shops"><img src="{{ url_for('static', filename='icons/pharmacy.png') }}"><span>Medical Shops</span></a>
+        <a href="/hospitals"><img src="{{ url_for('static', filename='icons/hospital.png') }}"><span>Hospitals</span></a>
+        <a href="/emergency"><img src="{{ url_for('static', filename='icons/emergency.png') }}"><span>Emergency</span></a>
+    </nav>
+</header>
+
+<main class="container">
+    {% for service in emergencies %}
+        {% set image = service[5] if service[5] else 'default_emergency.jpg' %}
+        <div class="emergency-card">
+            <img src="{{ url_for('static', filename='images/defalt_emergency.jpg') }}" alt="{{ service[1] }}">
+            <div class="content">
+                <h3>{{ service[1] }}</h3> <!-- Name -->
+                <p><span class="strong-label">Type:</span> {{ service[2] }}</p>
+                <p><span class="strong-label">Availability:</span> {{ service[3] }}</p>
+                <p><span class="strong-label">📞 Phone:</span> {{ service[4] }}</p>
+                <a href="{{ service[6] }}" class="map-link" target="_blank">📍 View Live Location</a>
+            </div>
+        </div>
+    {% endfor %}
+</main>
+
+<footer>
+    <p>© 2025 HealthConnect. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

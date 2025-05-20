@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctors | HealthConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .doctor-container {
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filters select {
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .doctor-card {
+            background-color: white;
+            width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doctor-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .doctor-card .info {
+            padding: 1rem;
+        }
+
+        .doctor-card h3 {
+            margin: 0;
+            color: #007bff;
+        }
+
+        .doctor-card p {
+            margin: 0.5rem 0;
+            color: #444;
+        }
+
+        .doctor-card .actions {
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .doctor-card .actions a {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            color: white;
+            background-color: #00b4d8;
+        }
+
+        .doctor-card .actions a:hover {
+            background-color: #0077b6;
+        }
+    </style>
+</head>
+<body>
+    <header class="glass-navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="HealthConnect Logo">
+        </div>
+        <nav class="nav-menu">
+            <a href="/"><img src="{{ url_for('static', filename='icons/home.png') }}"><span>Home</span></a>
+            <a href="/doctors"><img src="{{ url_for('static', filename='icons/doctor.png') }}"><span>Doctors</span></a>
+            <a href="/medical_shops"><img src="{{ url_for('static', filename='icons/pharmacy.png') }}"><span>Medical Shops</span></a>
+            <a href="/hospitals"><img src="{{ url_for('static', filename='icons/hospital.png') }}"><span>Hospitals</span></a>
+            <a href="#"><img src="{{ url_for('static', filename='icons/emergency.png') }}"><span>Emergency</span></a>
+            <a href="#"><img src="{{ url_for('static', filename='icons/login.png') }}"><span>Login</span></a>
+        </nav>
+    </header>
+
+    <section class="doctor-container">
+        <div class="filters">
+            <select>
+                <option>Filter by Specialty</option>
+                <option>Cardiologist</option>
+                <option>Dentist</option>
+                <option>Orthopedic</option>
+            </select>
+            <select>
+                <option>Sort by Rating</option>
+                <option>Highest Rated</option>
+                <option>Lowest Rated</option>
+            </select>
+        </div>
+
+        <div class="card-grid">
+            {% for doctor in doctors %}
+            <div class="doctor-card">
+                <img src="{{ url_for('static', filename='images/doctor1.jpg') }}" alt="Doctor">
+                <div class="info">
+                    <h3>Dr. {{ doctor[1] }}</h3>
+                    <p>{{ doctor[2] }} | {{ doctor[3] }}</p> <!-- specialization | qualification -->
+                </div>
+                <div class="actions">
+                    <a href="https://maps.google.com/?q={{ doctor[4] }}" target="_blank">View on Map</a>
+                    <a href="#">Book Appointment</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 HealthConnect. All rights reserved.</p>
+    </footer>
+</body>
+</html>

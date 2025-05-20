@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthConnect</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script defer src="static/js/script.js"></script>
+</head>
+<body>
+    <header class="glass-navbar">
+        <div class="logo">
+            <img src="static/images/logo.jpg" alt="HealthConnect Logo">
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html"><img src="static/icons/home.png"><span>Home</span></a>
+            <a href="/doctors"><img src="static/icons/doctor.png"><span>Doctors</span></a>
+            <a href="/medical_shops"><img src="static/icons/pharmacy.png"><span>Medical Shops</span></a>
+            <a href="/hospitals"><img src="static/icons/hospital.png"><span>Hospital</span></a>
+            <a href="#"><img src="static/icons/animal.png"><span>Animal Care</span></a>
+            <a href="/emergency"><img src="static/icons/emergency.png"><span>Emergency</span></a>            
+            
+            <a href="/login"><img src="static/icons/login.png"><span>Login</span></a>
+        </nav>
+    </header>
+
+    <section class="hero-slider">
+        <div class="slides">
+            <div class="slide" style="background-image: url('static/images/slider1.jpg');">
+                <div class="content">
+                    <h1>Reliable Medical Shops</h1>
+                    <p>Get medicines and supplies at verified nearby stores.</p>
+                    <a href="#" class="btn-primary">Locate Shops</a>
+                </div>
+                
+            </div>
+            <div class="slide" style="background-image: url('static/images/slider2.jpg');">
+                <div class="content">
+                    <h1>24/7 Emergency Support</h1>
+                    <p>Reach out during medical emergencies anytime, anywhere.</p>
+                    <a href="#" class="btn-primary">Get Help</a>
+                </div>
+            </div>
+            <div class="slide active" style="background-image: url('static/images/slider3.jpg');">
+                <div class="content">
+                    <h1>Find Expert Doctors Near You</h1>
+                    <p>Access top-rated doctors and health professionals quickly.</p>
+                    <a href="#" class="btn-primary">Find Doctors</a>
+                </div>
+        </div>
+    
+        <div class="dots">
+            <span class="dot active" onclick="showSlide(0)"></span>
+            <span class="dot" onclick="showSlide(1)"></span>
+            <span class="dot" onclick="showSlide(2)"></span>
+        </div>
+    </section>
+    
+
+    <section class="animal-care">
+        <h2>Animal Care</h2>
+        <p>Find vets and animal hospitals near you for your pet’s health.</p>
+        <a href="#" class="btn-secondary">Explore Animal Services</a>
+    </section>
+
+    <footer>
+        <p>© 2025 HealthConnect. All rights reserved.</p>
+    </footer>
+</body>
+</html>

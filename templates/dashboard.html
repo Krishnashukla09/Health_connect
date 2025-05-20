@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>User Dashboard | HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+    <style>
+        /* Reset & base */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0f1a; /* Dark navy */
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            min-height: 100vh;
+        }
+        h1.dashboard-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px #0ff;
+        }
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 30px 25px;
+            width: 220px;
+            box-shadow:
+                0 0 10px #0ff,
+                0 0 20px #0ff,
+                0 0 30px #0ff;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #0ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+        }
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow:
+                0 0 25px #0ff,
+                0 0 50px #0ff,
+                0 0 75px #0ff;
+        }
+        .card img {
+            width: 70px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 2px #0ff);
+        }
+        .card p {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .card a {
+            margin-top: auto;
+            text-decoration: none;
+            color: #00ffff;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid #00ffff;
+            padding: 8px 18px;
+            border-radius: 12px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .card a:hover {
+            background-color: #00ffff;
+            color: #0a0f1a;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        /* Chart container styling */
+        #stepsChart {
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 18px;
+            box-shadow:
+                0 0 10px #0ff,
+                0 0 20px #0ff;
+            padding: 20px;
+            max-width: 650px;
+            margin: 40px auto 0;
+            display: block;
+            user-select: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 720px) {
+            .card-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            #stepsChart {
+                max-width: 90vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1 class="dashboard-title">Welcome, {{ username }} 👋</h1>
+        <!-- Inside .card-grid -->
+<div class="card-grid">
+    <!-- Profile Card -->
+    <div class="card" onclick="location.href='/profile'">
+        <img src="{{ url_for('static', filename='icons/login.png') }}" alt="Profile" />
+        <p>Profile</p>
+        <a href="/profile">Go</a>
+    </div>
+
+    <!-- Virtual Doctor Card -->
+    <div class="card" onclick="location.href='/virtual_doctor'">
+        <img src="{{ url_for('static', filename='icons/doctor.png') }}" alt="Virtual Doctor" />
+        <p>Virtual Doctor</p>
+        <a href="/virtual_doctor">Consult</a>
+    </div>
+
+    <!-- ✅ Health Tracker Card -->
+    <div class="card" onclick="location.href='/track'">
+    <img src="{{ url_for('static', filename='icons/health.png') }}" alt="Health Tracker" />
+    <p>Health Tracker</p>
+    <a href="/track">Track</a>
+    </div>
+
+
+    <!-- Logout Card -->
+    <div class="card" onclick="location.href='/logout'">
+        <img src="{{ url_for('static', filename='icons/logout.png') }}" alt="Logout" />
+        <p>Logout</p>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+
+        <canvas id="stepsChart" width="650" height="300"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('stepsChart').getContext('2d');
+        const stepsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Steps',
+                    data: [3000, 4200, 3500, 5000, 4800, 5500, 6000],
+                    borderColor: '#00ffff',
+                    backgroundColor: 'rgba(0, 255, 255, 0.3)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 9,
+                    borderWidth: 3,
+                    hoverBorderWidth: 5,
+                    hoverBackgroundColor: '#00ffff',
+                    cubicInterpolationMode: 'monotone',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#00ffff',
+                            font: {
+                                family: 'Orbitron',
+                                size: 16,
+                                weight: 'bold',
+                            },
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#00ffff',
+                        titleColor: '#000',
+                        bodyColor: '#000',
+                        bodyFont: { family: 'Orbitron', size: 14 }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#00ffff',
+                            font: {
+                                family: 'Orbitron',
+                                size: 14,
+                                weight: 'bold',
+                            },
+                        },
+                        grid: {
+                            color: 'rgba(0,255,255,0.1)'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#00ffff',
+                            font: {
+                                family: 'Orbitron',
+                                size: 14,
+                                weight: 'bold',
+                            },
+                        },
+                        grid: {
+                            color: 'rgba(0,255,255,0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

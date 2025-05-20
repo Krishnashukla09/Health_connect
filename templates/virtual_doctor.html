@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Personal Virtual Doctor | HealthConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #0a0f1a, #001f3f);
+      font-family: 'Orbitron', sans-serif;
+      color: #0ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+      animation: flicker 3s infinite;
+    }
+
+    h3 {
+      margin-top: 0;
+      font-weight: 400;
+      color: #66ffff;
+      margin-bottom: 40px;
+      font-size: 1.3rem;
+      letter-spacing: 1.5px;
+    }
+
+    form {
+      background: rgba(0, 255, 255, 0.1);
+      padding: 35px 30px 40px;
+      border-radius: 22px;
+      box-shadow:
+        0 0 12px #0ff,
+        0 0 28px #0ff,
+        0 0 60px #0ff;
+      max-width: 520px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+        width: 100%;
+        height: 110px;
+        border-radius: 18px;
+        border: none;
+        padding: 18px 20px;
+        font-size: 1.15rem;
+        resize: none;
+        font-weight: 700;
+        outline: none;
+        color: #0a0f1a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: inset 0 0 8px #aaffffcc;
+        transition: box-shadow 0.3s ease;
+        line-height: 1.5;
+        box-sizing: border-box; /* <-- add this */
+    }
+
+
+    textarea:focus {
+      box-shadow: inset 0 0 15px #00ffffee;
+    }
+
+    button {
+      background: #00ffff;
+      border: none;
+      padding: 16px 0;
+      border-radius: 25px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0a0f1a;
+      cursor: pointer;
+      transition: background-color 0.4s ease, box-shadow 0.4s ease;
+      box-shadow:
+        0 0 18px #00ffff,
+        0 0 36px #00ffff;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+
+    button:hover {
+      background: #00cccc;
+      box-shadow:
+        0 0 25px #00cccc,
+        0 0 50px #00cccc,
+        0 0 75px #00cccc;
+    }
+
+    #adviceOutput {
+      margin-top: 45px;
+      max-width: 520px;
+      text-align: left;
+      font-size: 1.25rem;
+      font-weight: 600;
+      min-height: 140px;
+      line-height: 1.6;
+      border-left: 5px solid #0ff;
+      padding: 25px 30px;
+      color: #66ffff;
+      user-select: text;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: rgba(0,255,255,0.07);
+      border-radius: 20px;
+      box-shadow:
+        0 0 10px #00ffff66;
+    }
+
+    /* Neon flicker animation */
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.4;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Your Personal Virtual Doctor</h1>
+  <h3>Describe your symptoms in detail below</h3>
+
+  <form id="symptomForm" autocomplete="off">
+    <textarea id="symptoms" placeholder="Example: fever, headache, sore throat, fatigue" required></textarea>
+    <button type="submit">Get My Advice</button>
+  </form>
+
+  <div id="adviceOutput"></div>
+
+  <script>
+    const symptomForm = document.getElementById('symptomForm');
+    const adviceOutput = document.getElementById('adviceOutput');
+
+    const adviceDatabase = [
+      {
+        keywords: ['fever', 'cough', 'cold'],
+        advice: 'You may have the flu or a common cold. Rest well, stay hydrated, and consult a doctor if symptoms worsen.'
+      },
+      {
+        keywords: ['headache', 'migraine'],
+        advice: 'Try resting in a quiet, dark room and stay hydrated. If the headache persists or is severe, please consult a healthcare professional.'
+      },
+      {
+        keywords: ['stomach pain', 'abdomen', 'nausea'],
+        advice: 'Avoid heavy foods and stay hydrated. If the pain is severe or persistent, consult a doctor immediately.'
+      },
+      {
+        keywords: ['sore throat', 'throat pain', 'difficulty swallowing'],
+        advice: 'Gargle warm salt water and rest your voice. See a doctor if symptoms worsen or don’t improve within a few days.'
+      },
+      {
+        keywords: ['fatigue', 'tiredness', 'weakness'],
+        advice: 'Make sure you get enough rest and maintain a balanced diet. Persistent fatigue may require medical consultation.'
+      }
+    ];
+
+    symptomForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('symptoms').value.toLowerCase();
+      let matchedAdvice = [];
+
+      adviceDatabase.forEach(entry => {
+        entry.keywords.forEach(keyword => {
+          if(input.includes(keyword) && !matchedAdvice.includes(entry.advice)) {
+            matchedAdvice.push(entry.advice);
+          }
+        });
+      });
+
+      if(matchedAdvice.length === 0) {
+        matchedAdvice.push('Sorry, I couldn’t find advice for your symptoms. Please consult a healthcare professional.');
+      }
+
+      adviceOutput.innerHTML = matchedAdvice.map(advice => `<p>• ${advice}</p>`).join('');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Shops | HealthConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .container {
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .shop-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 1rem;
+            width: calc(33% - 2rem);
+            display: inline-block;
+            vertical-align: top;
+        }
+        .shop-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .shop-card .content {
+            padding: 1rem;
+        }
+        .shop-card h3 {
+            margin: 0;
+            color: #0077b6;
+        }
+        .shop-card p {
+            margin: 0.5rem 0;
+        }
+        .shop-card a {
+            text-decoration: none;
+            color: #28a745;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        .strong-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header class="glass-navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="HealthConnect Logo">
+    </div>
+    <nav class="nav-menu">
+        <a href="/"><img src="{{ url_for('static', filename='icons/home.png') }}"><span>Home</span></a>
+        <a href="/doctors"><img src="{{ url_for('static', filename='icons/doctor.png') }}"><span>Doctors</span></a>
+        <a href="/medical_shops"><img src="{{ url_for('static', filename='icons/pharmacy.png') }}"><span>Medical Shops</span></a>
+        <a href="/hospitals"><img src="{{ url_for('static', filename='icons/hospital.png') }}"><span>Hospitals</span></a>
+    </nav>
+</header>
+
+<main class="container">
+    {% for shop in shops %}
+        {% set image = shop[5] if shop[5] else 'default_shop.jpg' %}
+        <div class="shop-card">
+            <img src="{{ url_for('static', filename='images/shop1.jpg') }}" alt="{{ shop[1] }}">
+            <div class="content">
+                <h3>{{ shop[1] }}</h3> <!-- Name -->
+                <p>{{ shop[2] }}</p> <!-- Description -->
+                <p><span class="strong-label">📞 Phone:</span> {{ shop[3] }}</p>
+                <p>
+                    <a href="{{ shop[4] }}" target="_blank">
+                        <span class="strong-label">📍 View on Map</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</main>
+
+<footer>
+    <p>© 2025 HealthConnect. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
