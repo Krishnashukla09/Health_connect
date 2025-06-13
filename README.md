@@ -22,7 +22,7 @@ A comprehensive health management web application designed to assist users with 
 - **Frontend:** HTML, CSS, Bootstrap, JavaScript
 - **Backend:** Python (Flask)
 - **Database:** MySQL
-- **Tools & APIs:** Postman, VS Code, Google Maps API (optional)
+- **Tools & APIs:** Postman, VS Code, Google Maps 
 
 ---
 
